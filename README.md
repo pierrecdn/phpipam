@@ -6,7 +6,7 @@ phpIPAM is developed and maintained by Miha Petkovsek, released under the GPL v3
 
 Learn more on [phpIPAM homepage](http://phpipam.net)
 
-![phpIPAM logo](http://phpipam.net/wp-content/uploads/2014/12/phpipam_logo_small@2x.png)
+![phpIPAM logo](http://phpipam.net/wp-content/uploads/2014/12/phpipam_logo_small.png)
 
 ## How to use this Docker image
 
@@ -18,7 +18,7 @@ Run a MySQL database, dedicated to phpipam
 $ docker run --name phpipam-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -v /my_dir/phpipam:/var/lib/mysql -d mysql:5.6
 ```
 
-Here, we store data on the host system under [`/my_dir/phpipam`] and use a specific root password. 
+Here, we store data on the host system under `/my_dir/phpipam` and use a specific root password. 
 
 ### Phpipam 
 
@@ -56,7 +56,32 @@ For multi-host containers, expose ports, run etcd or consul to make service disc
 
 ![done](https://cloud.githubusercontent.com/assets/4225738/8746792/0d6fa34e-2c8d-11e5-8002-3793361ae34d.png)
 
+### Docker compose 
+
+You can create an all-in-one YAML deployment descriptor with Docker compose, like this : 
+
+```yaml
+ipam:
+  build: .
+  ports:
+   - "80:80"
+  links:
+   - phpipam-mysql
+phpipam-mysql:
+  image: mysql:5.6
+  environment: 
+   - MYSQL_ROOT_PASSWORD=my-secret-pw
+  volumes:
+   - /my_dir/phpipam:/var/lib/mysql
+```
+
+And next :
+
+```bash 
+$ docker-compose up -d
+```
+
 ### Notes
 
 phpIPAM is under heavy development by the amazing Miha. 
-To upgrade the release version, just change the `PHPIPAM_VERSION` environment variable to the target release (see https://github.com/phpipam/phpipam/releases) 
+To upgrade the release version, just change the `PHPIPAM_VERSION` environment variable to the target release (see [here](https://github.com/phpipam/phpipam/releases)) 
