@@ -38,7 +38,7 @@ For multi-host containers, expose ports, run etcd or consul to make service disc
 
 ### Configuration 
 
-* Browse to `http://<ip>[:<specific_port>]/`
+* Browse to `http://<ip>[:<specific_port>]/install/`
 * Step 1 : Choose 'Automatic database installation'
 
 ![step1](https://cloud.githubusercontent.com/assets/4225738/8746785/01758b9e-2c8d-11e5-8643-7f5862c75efe.png)
