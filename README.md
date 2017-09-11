@@ -89,6 +89,23 @@ And next :
 $ docker-compose up -d
 ```
 
+You can also point the `MYSQL_ENV_ROOT_PASSWORD` environment variable to a file,
+in which case the contents of this file will be used as the password.
+This makes it possible to use docker secrets for instance:
+
+```yaml
+version: '3'
+
+services:
+  ipam:
+    environment:
+      - MYSQL_EVN_MYSQL_ROOT_PASSWORD=/run/secrets/phpipam_mysql_root_password
+    secrets:
+      - phpipam_mysql_root_password
+```
+
+The secret can be created by running `echo my-secret-pw | docker secret create phpipam_mysql_root_password -`
+
 ### Notes
 
 phpIPAM is under heavy development by the amazing Miha. 
