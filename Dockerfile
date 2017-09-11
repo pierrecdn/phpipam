@@ -7,7 +7,8 @@ ENV WEB_REPO /var/www/html
 
 # Install required deb packages
 RUN apt-get update && apt-get -y upgrade && \
-	apt-get install -y php-pear php5-curl php5-mysql php5-json php5-gmp php5-mcrypt php5-ldap php5-gd php-net-socket libgmp-dev libmcrypt-dev libpng12-dev
+	apt-get install -y php-pear php5-curl php5-mysql php5-json php5-gmp php5-mcrypt php5-ldap php5-gd php-net-socket libgmp-dev libmcrypt-dev libpng12-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # Configure apache and required PHP modules 
 RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
@@ -22,9 +23,6 @@ RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
 	docker-php-ext-install mcrypt && \
 	echo ". /etc/environment" >> /etc/apache2/envvars && \
 	a2enmod rewrite
-
-RUN apt-get purge -y libgmp-dev libmcrypt-dev libpng12-dev && \
-	rm -rf /var/lib/apt/lists/*
 
 COPY php.ini /usr/local/etc/php/
 
