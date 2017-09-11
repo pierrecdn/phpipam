@@ -10,17 +10,18 @@ RUN apt-get update && apt-get -y upgrade && \
 	apt-get install -y php-pear php5-curl php5-mysql php5-json php5-gmp php5-mcrypt php5-ldap php5-gd php-net-socket libgmp-dev libmcrypt-dev libpng12-dev && \
     rm -rf /var/lib/apt/lists/*
 
-# Configure apache and required PHP modules 
+# Configure apache and required PHP modules
 RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
 	docker-php-ext-install mysqli && \
 	docker-php-ext-install gd && \
 	docker-php-ext-install sockets && \
 	docker-php-ext-install pdo_mysql && \
-	docker-php-ext-install gettext && \ 
+	docker-php-ext-install gettext && \
 	ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h && \
 	docker-php-ext-configure gmp --with-gmp=/usr/include/x86_64-linux-gnu && \
 	docker-php-ext-install gmp && \
 	docker-php-ext-install mcrypt && \
+	docker-php-ext-install pcntl && \
 	echo ". /etc/environment" >> /etc/apache2/envvars && \
 	a2enmod rewrite
 
