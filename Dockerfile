@@ -32,7 +32,7 @@ COPY php.ini /usr/local/etc/php/
 
 # clone phpipam sources and linked modules to web dir
 RUN git clone --depth=1 --recursive --branch ${PHPIPAM_VERSION} ${PHPIPAM_SOURCE} ${WEB_REPO}
-RUN find ${WEB_REPO} -name '.git' -exec rm -rf {} \;
+RUN ["/bin/bash", "-c", "find ${WEB_REPO} -name '.git' -exec rm -rf {} \;"]
 
 # Use system environment variables into config.php
 RUN cp ${WEB_REPO}/config.dist.php ${WEB_REPO}/config.php && \
