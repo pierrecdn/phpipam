@@ -1,13 +1,13 @@
 FROM php:5.6-apache
 MAINTAINER Pierre Cheynier <pierre.cheynier@sfr.com>
 
-ENV PHPIPAM_SOURCE https://github.com/phpipam/phpipam/archive/
+ENV PHPIPAM_SOURCE https://github.com/MattParr/phpipam.git
 ENV PHPIPAM_VERSION 1.3
 ENV WEB_REPO /var/www/html
 
 # Install required deb packages
 RUN apt-get update && apt-get -y upgrade && \
-    apt-get install -y php-pear php5-curl php5-mysql php5-json php5-gmp php5-mcrypt php5-ldap php5-gd php-net-socket libgmp-dev libmcrypt-dev libpng12-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev && \
+    apt-get install -y php-pear php5-curl php5-mysql php5-json php5-gmp php5-mcrypt php5-ldap php5-gd php-net-socket libgmp-dev libmcrypt-dev libpng12-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev git && \
     rm -rf /var/lib/apt/lists/*
 
 # Configure apache and required PHP modules
@@ -30,9 +30,9 @@ RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
 
 COPY php.ini /usr/local/etc/php/
 
-# copy phpipam sources to web dir
-ADD ${PHPIPAM_SOURCE}/${PHPIPAM_VERSION}.tar.gz /tmp/
-RUN tar -xzf /tmp/${PHPIPAM_VERSION}.tar.gz -C ${WEB_REPO}/ --strip-components=1
+# clone phpipam sources and linked modules to web dir
+RUN git clone --depth=1 --recursive --branch ${PHPIPAM_VERSION} ${PHPIPAM_SOURCE} ${WEB_REPO}
+RUN find ${WEB_REPO} -name '.git' -exec rm -rf {} \;
 
 # Use system environment variables into config.php
 RUN cp ${WEB_REPO}/config.dist.php ${WEB_REPO}/config.php && \
