@@ -44,10 +44,10 @@ RUN cp ${WEB_REPO}/config.dist.php ${WEB_REPO}/config.php && \
     ${WEB_REPO}/config.php
 
 # Set the locale
-RUN locale-gen en_US.UTF-8  
-ENV LANG en_US.UTF-8  
-ENV LANGUAGE en_US:en  
-ENV LC_ALL en_US.UTF-8
+RUN locale-gen de_DE.UTF-8  
+ENV LANG de_DE.UTF-8  
+ENV LANGUAGE de_DE:de  
+ENV LC_ALL de_DE.UTF-8
 
 EXPOSE 80
 
