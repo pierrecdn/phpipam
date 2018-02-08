@@ -46,6 +46,7 @@ RUN tar -xzf /tmp/v${PHPSAML_VERSION}.tar.gz -C ${WEB_REPO}/functions/php-saml/ 
 
 # Use system environment variables into config.php
 RUN cp ${WEB_REPO}/config.dist.php ${WEB_REPO}/config.php && \
+    chown www-data /var/www/html/app/admin/import-export/upload && \
     sed -i -e "s/\['host'\] = 'localhost'/\['host'\] = 'mysql'/" \
     -e "s/\['user'\] = 'phpipam'/\['user'\] = 'root'/" \
     -e "s/\['pass'\] = 'phpipamadmin'/\['pass'\] = getenv(\"MYSQL_ENV_MYSQL_ROOT_PASSWORD\")/" \
