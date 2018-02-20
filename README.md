@@ -23,7 +23,7 @@ Here, we store data on the host system under `/my_dir/phpipam` and use a specifi
 ### Phpipam 
 
 ```bash
-$ docker run -ti -d -p 80:80 --name ipam --link phpipam-mysql:mysql pierrecdn/phpipam
+$ docker run -ti -d -p 80:80 -e MYSQL_ENV_MYSQL_USER=root -e MYSQL_ENV_MYSQL_PASSWORD=my-secret-pw--name ipam --link phpipam-mysql:mysql pierrecdn/phpipam
 ```
 
 We are linking the two containers and expose the HTTP port. 
@@ -76,7 +76,8 @@ services:
       - mysql
     image: pierrecdn/phpipam
     environment:
-      - MYSQL_ENV_MYSQL_ROOT_PASSWORD=my-secret-pw
+      - MYSQL_ENV_MYSQL_USER=root
+      - MYSQL_ENV_MYSQL_PASSWORD=my-secret-pw
     ports:
       - "80:80"
 volumes:
@@ -89,7 +90,7 @@ And next :
 $ docker-compose up -d
 ```
 
-You can also point the `MYSQL_ENV_ROOT_PASSWORD` environment variable to a file,
+You can also point the `MYSQL_ENV_PASSWORD_FILE` environment variable to a file,
 in which case the contents of this file will be used as the password.
 This makes it possible to use docker secrets for instance:
 
@@ -99,7 +100,8 @@ version: '3'
 services:
   ipam:
     environment:
-      - MYSQL_EVN_MYSQL_ROOT_PASSWORD=/run/secrets/phpipam_mysql_root_password
+      - MYSQL_ENV_MYSQL_USER=root
+      - MYSQL_ENV_MYSQL_PASSWORD_FILE=/run/secrets/phpipam_mysql_root_password
     secrets:
       - phpipam_mysql_root_password
 ```
