@@ -12,7 +12,7 @@ ENV WEB_REPO /var/www/html
 # Install required deb packages
 RUN apt-get update && apt-get -y upgrade && \
     rm /etc/apt/preferences.d/no-debian-php && \
-    apt-get install -y php-pear php5-curl php5-mysql php5-json php5-gmp php5-mcrypt php5-ldap php5-gd php-net-socket libgmp-dev libmcrypt-dev libpng12-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev && \
+    apt-get install -y php-pear php5-curl php5-mysql php5-json php5-gmp php5-mcrypt php5-ldap php5-gd php5-snmp php-net-socket libgmp-dev libmcrypt-dev libpng12-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev libsnmp-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Configure apache and required PHP modules
@@ -22,6 +22,7 @@ RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
     docker-php-ext-install gd && \
     docker-php-ext-install sockets && \
     docker-php-ext-install pdo_mysql && \
+    docker-php-ext-install snmp && \
     docker-php-ext-install gettext && \
     ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h && \
     docker-php-ext-configure gmp --with-gmp=/usr/include/x86_64-linux-gnu && \
