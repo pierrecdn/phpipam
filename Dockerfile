@@ -12,14 +12,26 @@ ENV WEB_REPO /var/www/html
 # Install required deb packages
 RUN apt-get update && apt-get -y upgrade && \
     rm /etc/apt/preferences.d/no-debian-php && \
-    apt-get install -y php-pear php5-curl php5-mysql php5-json php5-gmp php5-mcrypt php5-ldap php5-gd php-net-socket libgmp-dev libmcrypt-dev libpng12-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev && \
+    apt-get install -y libcurl4-gnutls-dev libgmp-dev libmcrypt-dev libpng12-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev libsnmp-dev && \
     rm -rf /var/lib/apt/lists/*
+
+# Install required packages and files required for snmp
+RUN echo "deb http://ftp.br.debian.org/debian/ wheezy main contrib non-free" > /etc/apt/sources.list && \
+    apt-get update && apt-get install -y snmp-mibs-downloader && \
+    rm -rf /var/lib/apt/lists/* && \
+    curl -s ftp://ftp.cisco.com/pub/mibs/v2/CISCO-SMI.my -o /var/lib/mibs/ietf/CISCO-SMI.txt && \
+    curl -s ftp://ftp.cisco.com/pub/mibs/v2/CISCO-TC.my -o /var/lib/mibs/ietf/CISCO-TC.txt && \
+    curl -s ftp://ftp.cisco.com/pub/mibs/v2/CISCO-VTP-MIB.my -o /var/lib/mibs/ietf/CISCO-VTP-MIB.txt && \
+    curl -s ftp://ftp.cisco.com/pub/mibs/v2/MPLS-VPN-MIB.my -o /var/lib/mibs/ietf/MPLS-VPN-MIB.txt
 
 # Configure apache and required PHP modules
 RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
     docker-php-ext-install mysqli && \
     docker-php-ext-configure gd --enable-gd-native-ttf --with-freetype-dir=/usr/include/freetype2 --with-png-dir=/usr/include --with-jpeg-dir=/usr/include && \
     docker-php-ext-install gd && \
+    docker-php-ext-install curl && \
+    docker-php-ext-install json && \
+    docker-php-ext-install snmp && \
     docker-php-ext-install sockets && \
     docker-php-ext-install pdo_mysql && \
     docker-php-ext-install gettext && \
