@@ -10,16 +10,14 @@ ENV PHPSAML_VERSION 2.10.6
 ENV WEB_REPO /var/www/html
 
 # Install required deb packages
-RUN apt-get update && apt-get -y upgrade && \
+RUN sed -i /etc/apt/sources.list -e 's/$/ non-free'/ && \
+    apt-get update && apt-get -y upgrade && \
     rm /etc/apt/preferences.d/no-debian-php && \
-    apt-get install -y libcurl4-gnutls-dev libgmp-dev libmcrypt-dev libpng12-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev libsnmp-dev && \
+    apt-get install -y libcurl4-gnutls-dev libgmp-dev libmcrypt-dev libpng12-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev libsnmp-dev snmp-mibs-downloader && \
     rm -rf /var/lib/apt/lists/*
 
 # Install required packages and files required for snmp
-RUN echo "deb http://ftp.br.debian.org/debian/ wheezy main contrib non-free" > /etc/apt/sources.list && \
-    apt-get update && apt-get install -y snmp-mibs-downloader && \
-    rm -rf /var/lib/apt/lists/* && \
-    curl -s ftp://ftp.cisco.com/pub/mibs/v2/CISCO-SMI.my -o /var/lib/mibs/ietf/CISCO-SMI.txt && \
+RUN curl -s ftp://ftp.cisco.com/pub/mibs/v2/CISCO-SMI.my -o /var/lib/mibs/ietf/CISCO-SMI.txt && \
     curl -s ftp://ftp.cisco.com/pub/mibs/v2/CISCO-TC.my -o /var/lib/mibs/ietf/CISCO-TC.txt && \
     curl -s ftp://ftp.cisco.com/pub/mibs/v2/CISCO-VTP-MIB.my -o /var/lib/mibs/ietf/CISCO-VTP-MIB.txt && \
     curl -s ftp://ftp.cisco.com/pub/mibs/v2/MPLS-VPN-MIB.my -o /var/lib/mibs/ietf/MPLS-VPN-MIB.txt
