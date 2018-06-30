@@ -13,7 +13,7 @@ ENV WEB_REPO /var/www/html
 RUN sed -i /etc/apt/sources.list -e 's/$/ non-free'/ && \
     apt-get update && apt-get -y upgrade && \
     rm /etc/apt/preferences.d/no-debian-php && \
-    apt-get install -y libcurl4-gnutls-dev libgmp-dev libmcrypt-dev libpng12-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev libsnmp-dev snmp-mibs-downloader && \
+    apt-get install -y libcurl4-gnutls-dev libgmp-dev libmcrypt-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev libsnmp-dev snmp-mibs-downloader && \
     rm -rf /var/lib/apt/lists/*
 
 # Install required packages and files required for snmp
