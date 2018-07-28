@@ -59,6 +59,7 @@ RUN tar -xzf /tmp/v${PHPSAML_VERSION}.tar.gz -C ${WEB_REPO}/functions/php-saml/ 
 RUN cp ${WEB_REPO}/config.dist.php ${WEB_REPO}/config.php && \
     chown www-data /var/www/html/app/admin/import-export/upload && \
     chown www-data /var/www/html/app/subnets/import-subnet/upload && \
+    chown www-data /var/www/html/css/images/logo && \
     sed -i -e "s/\['host'\] = 'localhost'/\['host'\] = getenv(\"MYSQL_ENV_MYSQL_HOST\") ?: \"mysql\"/" \
     -e "s/\['user'\] = 'phpipam'/\['user'\] = getenv(\"MYSQL_ENV_MYSQL_USER\") ?: \"root\"/" \
     -e "s/\['pass'\] = 'phpipamadmin'/\['pass'\] = getenv(\"MYSQL_ENV_MYSQL_PASSWORD\")/" \
