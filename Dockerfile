@@ -64,10 +64,8 @@ RUN cp ${WEB_REPO}/config.dist.php ${WEB_REPO}/config.php && \
     -e "s/\['user'\] = 'phpipam'/\['user'\] = getenv(\"MYSQL_ENV_MYSQL_USER\") ?: \"root\"/" \
     -e "s/\['pass'\] = 'phpipamadmin'/\['pass'\] = getenv(\"MYSQL_ENV_MYSQL_PASSWORD\")/" \
     -e "s/\['port'\] = 3306;/\['port'\] = 3306;\n\n\$password_file = getenv(\"MYSQL_ENV_MYSQL_PASSWORD_FILE\");\nif(file_exists(\$password_file))\n\$db\['pass'\] = preg_replace(\"\/\\\\s+\/\", \"\", file_get_contents(\$password_file));/" \
-    ${WEB_REPO}/config.php
-
-#set upload folder permission
-RUN chmod 777 /var/www/html/app/subnets/import-subnet/upload
+    ${WEB_REPO}/config.php && \
+    chmod 777 /var/www/html/app/subnets/import-subnet/upload
 
 EXPOSE 80
 
