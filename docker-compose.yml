@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  mysql: 
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=my-password
+    restart: always
+    volumes:
+      - ./db_data/mysql:/var/lib/mysql
+    container_name: phpipam_mysql
+  ipam:
+    depends_on:
+      - mysql
+    build: ./build/
+    restart: always
+    environment:
+      - MYSQL_ENV_MYSQL_USER=root
+      - MYSQL_ENV_MYSQL_PASSWORD=my-password
+      - MYSQL_ENV_MYSQL_HOST=mysql
+    container_name: phpipam
+    ports:
+      - "8080:80"
+    volumes:
+      - ./config:/config
+
+
+

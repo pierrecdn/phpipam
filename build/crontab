@@ -1,0 +1,5 @@
+#run phpipam cron jobs
+#path for scripts in container: /var/www/html/functions/scripts
+# update host status every 15 minutes
+*/15 * * * * /usr/local/bin/php /var/www/html/functions/scripts/pingCheck.php
+*/15 * * * * /usr/local/bin/php /var/www/html/functions/scripts/discoveryCheck.php
