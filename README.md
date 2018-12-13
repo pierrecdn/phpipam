@@ -3,7 +3,7 @@
 ---
 
 Update:
-12/12/18 - Modified to inlcude support for crontab and switched to using MariaDB from MySQL
+12/12/18 - Modified to include support for crontab and switched to using MariaDB from MySQL
 
 ---
 
