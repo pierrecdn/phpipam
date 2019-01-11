@@ -1,5 +1,6 @@
 FROM php:5.6-apache
-MAINTAINER Pierre Cheynier <pierre.cheynier@gmail.com>
+LABEL "Author"="Pierre Cheynier <pierre.cheynier@gmail.com>"
+LABEL "Modificaitons for cron"=" Stacy Olivas <kg7qin@arrl.net>"
 
 ENV PHPIPAM_SOURCE https://github.com/phpipam/phpipam/
 ENV PHPIPAM_VERSION 1.3.2
@@ -13,8 +14,8 @@ ENV WEB_REPO /var/www/html
 RUN sed -i /etc/apt/sources.list -e 's/$/ non-free'/ && \
     apt-get update && apt-get -y upgrade && \
     rm /etc/apt/preferences.d/no-debian-php && \
-    apt-get install -y libcurl4-gnutls-dev libgmp-dev libmcrypt-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev libsnmp-dev snmp-mibs-downloader iputils-ping && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y libcurl4-gnutls-dev libgmp-dev libmcrypt-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev libsnmp-dev snmp-mibs-downloader iputils-ping cron mariadb-client && \
+    rm -rf /var/lib/apt/lists/* 
 
 # Install required packages and files required for snmp
 RUN mkdir -p /var/lib/mibs/ietf && \
@@ -46,6 +47,8 @@ RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
 
 COPY php.ini /usr/local/etc/php/
 
+COPY ./crontab /etc/
+
 # Copy phpipam sources to web dir
 ADD ${PHPIPAM_SOURCE}/archive/${PHPIPAM_VERSION}.tar.gz /tmp/
 RUN tar -xzf /tmp/${PHPIPAM_VERSION}.tar.gz -C ${WEB_REPO}/ --strip-components=1
@@ -70,3 +73,11 @@ RUN cp ${WEB_REPO}/config.dist.php ${WEB_REPO}/config.php && \
     ${WEB_REPO}/config.php
 
 EXPOSE 80
+
+COPY ./entrypoint.sh /entrypoint.sh
+
+RUN /bin/chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+

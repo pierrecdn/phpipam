@@ -1,5 +1,12 @@
 # docker-phpipam
 
+---
+
+Update:
+12/12/18 - Modified to include support for crontab and switched to using MariaDB from MySQL
+
+---
+
 phpIPAM is an open-source web IP address management application. Its goal is to provide light and simple IP address management application.
 
 phpIPAM is developed and maintained by Miha Petkovsek, released under the GPL v3 license, project source is [here](https://github.com/phpipam/phpipam)
@@ -10,7 +17,9 @@ Learn more on [phpIPAM homepage](http://phpipam.net)
 
 ## How to use this Docker image
 
-### Mysql
+### MySQL
+
+Note:  MariaDB is now used instead of MySQL.  The same commands will work though as MariaDB is a mostly drop-in replacement for MySQL.
 
 Run a MySQL database, dedicated to phpipam
 
@@ -55,6 +64,12 @@ For multi-host containers, expose ports, run etcd or consul to make service disc
 * You're done ! 
 
 ![done](https://cloud.githubusercontent.com/assets/4225738/8746792/0d6fa34e-2c8d-11e5-8002-3793361ae34d.png)
+
+### Crontab support
+
+Crontab support has been added.  By default the scan and ping scripts are run every 15 minutes.  
+
+You can modify this by making changes to the crontab file under the config directory and restating the container
 
 ### Docker compose 
 
