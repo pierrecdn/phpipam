@@ -22,6 +22,10 @@ while ! mysql --protocol TCP -u"$MYSQL_ENV_MYSQL_USER" -p"$MYSQL_ENV_MYSQL_PASSW
     fi;
 done
 
+#Work around Debian 9 "bug" with cron and Docker
+/bin/echo "* Setting up for cron"
+/usr/bin/touch /etc/crontab /etc/cron.*/*
+
 /bin/echo "* Starting cron service"
 # start the cron service in teh container
 /usr/sbin/service cron start
