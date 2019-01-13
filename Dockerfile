@@ -1,4 +1,4 @@
-FROM php:5.6-apache
+FROM php:7.2-apache
 MAINTAINER Pierre Cheynier <pierre.cheynier@gmail.com>
 
 ENV PHPIPAM_SOURCE https://github.com/phpipam/phpipam/
@@ -37,10 +37,11 @@ RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
     ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h && \
     docker-php-ext-configure gmp --with-gmp=/usr/include/x86_64-linux-gnu && \
     docker-php-ext-install gmp && \
-    docker-php-ext-install mcrypt && \
     docker-php-ext-install pcntl && \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu && \
     docker-php-ext-install ldap && \
+    pecl install mcrypt-1.0.1 && \
+    docker-php-ext-enable mcrypt && \
     echo ". /etc/environment" >> /etc/apache2/envvars && \
     a2enmod rewrite
 
