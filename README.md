@@ -26,17 +26,9 @@ Here, we store data on the host system under `/my_dir/phpipam` and use a specifi
 $ docker run -ti -d -p 80:80 -e MYSQL_ENV_MYSQL_ROOT_PASSWORD=my-secret-pw --name ipam --link phpipam-mysql:mysql pierrecdn/phpipam
 ```
 
-We are linking the two containers and expose the HTTP port.
+We are linking the two containers and exposing the HTTP port.
 
-### Specific integration (HTTPS, multi-host containers, etc.)
-
-Regarding your requirements and docker setup, you've to expose resources.
-
-For HTTPS, run a reverse-proxy in front of your phpipam container and link it to.
-
-For multi-host containers, expose ports, run etcd or consul to make service discovery works etc.
-
-### Configuration
+### First install scenario
 
 * Browse to `http://<ip>[:<specific_port>]/install/`
 * Step 1 : Choose 'Automatic database installation'
@@ -107,6 +99,28 @@ services:
 ```
 
 The secret can be created by running `echo my-secret-pw | docker secret create phpipam_mysql_root_password -`
+
+### Advanced Configuration
+
+Here is the list of the available environment variables in the phpipam container, pass them to docker using `-e`.
+None of them are actually needed to run the container, this is only to tweak the behavior.
+
+| Environment variable           | Default value | Description                                                                                              |
+| ------------------------------ |:-------------:| --------------------------------------------------------------------------------------------------------:|
+| MYSQL_ENV_MYSQL_HOST           | mysql         | The host used to reach the MySQL instance                                                                |
+| MYSQL_ENV_MYSQL_USER           | root          | The user to connect the MySQL instance                                                                   |
+| MYSQL_ENV_MYSQL_ROOT_PASSWORD  | (empty)       | The MySQL password. Can be set using the Web UI during the first install                                 |
+| MYSQL_ENV_MYSQL_DB             | phpipam       | The name of the MySQL DB to connect to                                                                   |
+| MYSQL_ENV_MYSQL_PASSWORD_FILE  | (empty)       | A file containing the password (if not using MYSQL_ROOT_PASSWORD) this allows to leverage docker secrets |
+| PHPIPAM_BASE                   | /             | The base URI under which phpipam runs. Useful when performing rewrites with a reverse-proxy              |
+
+### Specific integration (HTTPS, multi-host containers, etc.)
+
+Regarding your requirements and docker setup, you've to expose resources.
+
+For HTTPS, run a reverse-proxy in front of your phpipam container and link it to.
+
+For multi-host containers, expose ports, run etcd or consul to make service discovery works etc.
 
 ### Notes
 
