@@ -2,9 +2,9 @@
 
 phpIPAM is an open-source web IP address management application. Its goal is to provide light and simple IP address management application.
 
-phpIPAM is developed and maintained by Miha Petkovsek, released under the GPL v3 license, project source is [here](https://github.com/phpipam/phpipam)
+phpIPAM is developed and maintained by Miha Petkovsek, released under the GPL v3 license, project source is [here](https://github.com/phpipam/phpipam).
 
-Learn more on [phpIPAM homepage](http://phpipam.net)
+Learn more on [phpIPAM homepage](http://phpipam.net).
 
 ![phpIPAM logo](http://phpipam.net/wp-content/uploads/2014/12/phpipam_logo_small.png)
 
@@ -12,31 +12,31 @@ Learn more on [phpIPAM homepage](http://phpipam.net)
 
 ### Mysql
 
-Run a MySQL database, dedicated to phpipam
+Run a MySQL database, dedicated to phpipam.
 
 ```bash
 $ docker run --name phpipam-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -v /my_dir/phpipam:/var/lib/mysql -d mysql:5.6
 ```
 
-Here, we store data on the host system under `/my_dir/phpipam` and use a specific root password. 
+Here, we store data on the host system under `/my_dir/phpipam` and use a specific root password.
 
-### Phpipam 
+### Phpipam
 
 ```bash
 $ docker run -ti -d -p 80:80 -e MYSQL_ENV_MYSQL_ROOT_PASSWORD=my-secret-pw --name ipam --link phpipam-mysql:mysql pierrecdn/phpipam
 ```
 
-We are linking the two containers and expose the HTTP port. 
+We are linking the two containers and expose the HTTP port.
 
 ### Specific integration (HTTPS, multi-host containers, etc.)
 
-Regarding your requirements and docker setup, you've to expose resources. 
+Regarding your requirements and docker setup, you've to expose resources.
 
-For HTTPS, run a reverse-proxy in front of your phpipam container and link it to. 
+For HTTPS, run a reverse-proxy in front of your phpipam container and link it to.
 
-For multi-host containers, expose ports, run etcd or consul to make service discovery works etc. 
+For multi-host containers, expose ports, run etcd or consul to make service discovery works etc.
 
-### Configuration 
+### Configuration
 
 * Browse to `http://<ip>[:<specific_port>]/install/`
 * Step 1 : Choose 'Automatic database installation'
@@ -52,11 +52,11 @@ For multi-host containers, expose ports, run etcd or consul to make service disc
 
 ![step3](https://cloud.githubusercontent.com/assets/4225738/8746790/0c434bf6-2c8d-11e5-9ae7-b7d1021b7aa0.png)
 
-* You're done ! 
+* You're done !
 
 ![done](https://cloud.githubusercontent.com/assets/4225738/8746792/0d6fa34e-2c8d-11e5-8002-3793361ae34d.png)
 
-### Docker compose 
+### Docker compose
 
 You can also create an all-in-one YAML deployment descriptor with Docker compose, like this:
 
@@ -87,7 +87,7 @@ volumes:
 
 And next :
 
-```bash 
+```bash
 $ docker-compose up -d
 ```
 
@@ -110,5 +110,5 @@ The secret can be created by running `echo my-secret-pw | docker secret create p
 
 ### Notes
 
-phpIPAM is under heavy development by the amazing Miha. 
-To upgrade the release version, just change the `PHPIPAM_VERSION` environment variable to the target release (see [here](https://github.com/phpipam/phpipam/releases)) 
+phpIPAM is under heavy development by the amazing Miha.
+To upgrade the release version, just change the `PHPIPAM_VERSION` environment variable to the target release (see [here](https://github.com/phpipam/phpipam/releases)).
