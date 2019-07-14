@@ -2,7 +2,7 @@ FROM php:7.2-apache
 MAINTAINER Pierre Cheynier <pierre.cheynier@gmail.com>
 
 ENV PHPIPAM_SOURCE https://github.com/phpipam/phpipam/
-ENV PHPIPAM_VERSION 1.3.2
+ENV PHPIPAM_VERSION 1.4
 ENV PHPMAILER_SOURCE https://github.com/PHPMailer/PHPMailer/
 ENV PHPMAILER_VERSION 5.2.21
 ENV PHPSAML_SOURCE https://github.com/onelogin/php-saml/
