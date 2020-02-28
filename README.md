@@ -23,7 +23,7 @@ Here, we store data on the host system under `/my_dir/phpipam` and use a specifi
 ### Phpipam
 
 ```bash
-$ docker run -ti -d -p 80:80 -e MYSQL_ENV_MYSQL_ROOT_PASSWORD=my-secret-pw --name ipam --link phpipam-mysql:mysql pierrecdn/phpipam
+$ docker run -ti -d -p 80:8080 -e MYSQL_ENV_MYSQL_ROOT_PASSWORD=my-secret-pw --name ipam --link phpipam-mysql:mysql pierrecdn/phpipam
 ```
 
 We are linking the two containers and exposing the HTTP port.
@@ -72,7 +72,7 @@ services:
       - MYSQL_ENV_MYSQL_ROOT_PASSWORD=my-secret-pw
       - MYSQL_ENV_MYSQL_HOST=mysql
     ports:
-      - "80:80"
+      - "80:8080"
 volumes:
   db_data:
 ```

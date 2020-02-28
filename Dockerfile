@@ -73,4 +73,9 @@ RUN cp ${WEB_REPO}/config.dist.php ${WEB_REPO}/config.php && \
     -e "s/\$gmaps_api_geocode_key.*/\$gmaps_api_geocode_key = getenv(\"GMAPS_API_GEOCODE_KEY\") ?: \"\";/" \
     ${WEB_REPO}/config.php
 
-EXPOSE 80
+# Tune for rootless
+RUN sed -i -e 's/^Listen.*/Listen 8080/g' /etc/apache2/ports.conf
+
+USER 33
+
+EXPOSE 8080
