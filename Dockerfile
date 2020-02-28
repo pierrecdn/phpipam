@@ -57,6 +57,7 @@ RUN curl -sL ${PHPSAML_SOURCE}/archive/v${PHPSAML_VERSION}.tar.gz | tar -xzf - -
 # Use system environment variables into config.php
 ENV PHPIPAM_BASE /
 RUN ln -s config.docker.php ${WEB_REPO}/config.php && \
+    echo "getenv('IPAM_TIMEZONE') ? date_default_timezone_set(getenv('IPAM_TIMEZONE')) : false;" >> ${WEB_REPO}/config.php && \
     chown www-data /var/www/html/app/admin/import-export/upload && \
     chown www-data /var/www/html/app/subnets/import-subnet/upload && \
     chown www-data /var/www/html/css/images/logo
