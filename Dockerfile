@@ -1,5 +1,6 @@
 FROM php:7.2-apache
-MAINTAINER Pierre Cheynier <pierre.cheynier@gmail.com>
+
+MAINTAINER Richard Kojedzinszky <richard@kojedz.in>
 
 ENV PHPIPAM_SOURCE https://github.com/phpipam/phpipam/
 ENV PHPIPAM_VERSION 1.4
@@ -47,31 +48,18 @@ RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
 
 COPY php.ini /usr/local/etc/php/
 
-# Copy phpipam sources to web dir
-ADD ${PHPIPAM_SOURCE}/archive/${PHPIPAM_VERSION}.tar.gz /tmp/
-RUN tar -xzf /tmp/${PHPIPAM_VERSION}.tar.gz -C ${WEB_REPO}/ --strip-components=1
-# Copy referenced submodules into the right directory
-ADD ${PHPMAILER_SOURCE}/archive/v${PHPMAILER_VERSION}.tar.gz /tmp/
-RUN tar -xzf /tmp/v${PHPMAILER_VERSION}.tar.gz -C ${WEB_REPO}/functions/PHPMailer/ --strip-components=1
-ADD ${PHPSAML_SOURCE}/archive/v${PHPSAML_VERSION}.tar.gz /tmp/
-RUN tar -xzf /tmp/v${PHPSAML_VERSION}.tar.gz -C ${WEB_REPO}/functions/php-saml/ --strip-components=1
+# Add phpipam sources to web dir
+RUN curl -sL ${PHPIPAM_SOURCE}/archive/${PHPIPAM_VERSION}.tar.gz | tar -xzf - -C ${WEB_REPO}/ --strip-components=1
+# Add referenced submodules into the right directory
+RUN curl -sL ${PHPMAILER_SOURCE}/archive/v${PHPMAILER_VERSION}.tar.gz | tar -xzf - -C ${WEB_REPO}/functions/PHPMailer/ --strip-components=1
+RUN curl -sL ${PHPSAML_SOURCE}/archive/v${PHPSAML_VERSION}.tar.gz | tar -xzf - -C ${WEB_REPO}/functions/php-saml/ --strip-components=1
 
 # Use system environment variables into config.php
 ENV PHPIPAM_BASE /
-RUN cp ${WEB_REPO}/config.dist.php ${WEB_REPO}/config.php && \
+RUN cp ${WEB_REPO}/config.docker.php ${WEB_REPO}/config.php && \
     chown www-data /var/www/html/app/admin/import-export/upload && \
     chown www-data /var/www/html/app/subnets/import-subnet/upload && \
-    chown www-data /var/www/html/css/images/logo && \
-    echo "\$db['webhost'] = '%';" >> ${WEB_REPO}/config.php && \
-    sed -i -e "s/\['host'\] = 'localhost'/\['host'\] = getenv(\"MYSQL_ENV_MYSQL_HOST\") ?: \"mysql\"/" \
-    -e "s/\['user'\] = 'phpipam'/\['user'\] = getenv(\"MYSQL_ENV_MYSQL_USER\") ?: \"root\"/" \
-    -e "s/\['name'\] = 'phpipam'/\['name'\] = getenv(\"MYSQL_ENV_MYSQL_DB\") ?: \"phpipam\"/" \
-    -e "s/\['pass'\] = 'phpipamadmin'/\['pass'\] = getenv(\"MYSQL_ENV_MYSQL_ROOT_PASSWORD\")/" \
-    -e "s/\['port'\] = 3306;/\['port'\] = 3306;\n\n\$password_file = getenv(\"MYSQL_ENV_MYSQL_PASSWORD_FILE\");\nif(file_exists(\$password_file))\n\$db\['pass'\] = preg_replace(\"\/\\\\s+\/\", \"\", file_get_contents(\$password_file));/" \
-    -e "s/define('BASE', \"\/\")/define('BASE', getenv(\"PHPIPAM_BASE\"))/" \
-    -e "s/\$gmaps_api_key.*/\$gmaps_api_key = getenv(\"GMAPS_API_KEY\") ?: \"\";/" \
-    -e "s/\$gmaps_api_geocode_key.*/\$gmaps_api_geocode_key = getenv(\"GMAPS_API_GEOCODE_KEY\") ?: \"\";/" \
-    ${WEB_REPO}/config.php
+    chown www-data /var/www/html/css/images/logo
 
 # Tune for rootless
 RUN sed -i -e 's/^Listen.*/Listen 8080/g' /etc/apache2/ports.conf
