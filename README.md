@@ -113,7 +113,7 @@ None of them are actually needed to run the container, this is only to tweak the
 | MYSQL_ENV_MYSQL_DB             | phpipam       | The name of the MySQL DB to connect to                                                                   |
 | MYSQL_ENV_MYSQL_PASSWORD_FILE  | (empty)       | A file containing the password (if not using MYSQL_ROOT_PASSWORD) this allows to leverage docker secrets |
 | PHPIPAM_BASE                   | /             | The base URI under which phpipam runs. Useful when performing rewrites with a reverse-proxy              |
-| GMAPS_API KEY                  | (empty)       | Google Maps API Key, used to display maps of your devices                                                |
+| GMAPS_API_KEY                  | (empty)       | Google Maps API Key, used to display maps of your devices                                                |
 | GMAPS_API_GEOCODE_KEY          | (empty)       | Google Maps Geocode API Key, used to find coordinates from an address/ a location of your device         |
 
 ### Specific integration (HTTPS, multi-host containers, etc.)
