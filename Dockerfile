@@ -2,7 +2,7 @@ FROM php:7.2-apache
 MAINTAINER Pierre Cheynier <pierre.cheynier@gmail.com>
 
 ENV PHPIPAM_SOURCE https://github.com/phpipam/phpipam/
-ENV PHPIPAM_VERSION 1.4
+ENV PHPIPAM_VERSION 1.4.2
 ENV PHPMAILER_SOURCE https://github.com/PHPMailer/PHPMailer/
 ENV PHPMAILER_VERSION 5.2.21
 ENV PHPSAML_SOURCE https://github.com/onelogin/php-saml/
@@ -48,8 +48,8 @@ RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
 COPY php.ini /usr/local/etc/php/
 
 # Copy phpipam sources to web dir
-ADD ${PHPIPAM_SOURCE}/archive/${PHPIPAM_VERSION}.tar.gz /tmp/
-RUN tar -xzf /tmp/${PHPIPAM_VERSION}.tar.gz -C ${WEB_REPO}/ --strip-components=1
+ADD ${PHPIPAM_SOURCE}/archive/v${PHPIPAM_VERSION}.tar.gz /tmp/
+RUN tar -xzf /tmp/v${PHPIPAM_VERSION}.tar.gz -C ${WEB_REPO}/ --strip-components=1
 # Copy referenced submodules into the right directory
 ADD ${PHPMAILER_SOURCE}/archive/v${PHPMAILER_VERSION}.tar.gz /tmp/
 RUN tar -xzf /tmp/v${PHPMAILER_VERSION}.tar.gz -C ${WEB_REPO}/functions/PHPMailer/ --strip-components=1
