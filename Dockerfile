@@ -49,7 +49,7 @@ COPY php.ini /usr/local/etc/php/
 
 # Copy phpipam sources to web dir
 ADD ${PHPIPAM_SOURCE}/archive/v${PHPIPAM_VERSION}.tar.gz /tmp/
-RUN tar -xzf /tmp/${PHPIPAM_VERSION}.tar.gz -C ${WEB_REPO}/ --strip-components=1
+RUN tar -xzf /tmp/v${PHPIPAM_VERSION}.tar.gz -C ${WEB_REPO}/ --strip-components=1
 # Copy referenced submodules into the right directory
 ADD ${PHPMAILER_SOURCE}/archive/v${PHPMAILER_VERSION}.tar.gz /tmp/
 RUN tar -xzf /tmp/v${PHPMAILER_VERSION}.tar.gz -C ${WEB_REPO}/functions/PHPMailer/ --strip-components=1
