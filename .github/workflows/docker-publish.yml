@@ -4,8 +4,6 @@ on:
     branches: [ master ]
     # Publish all tags as releases.
     tags: [ '*' ]
-  pull_request:
-    branches: [ master ]
 
 env:
   REGISTRY: docker.io
