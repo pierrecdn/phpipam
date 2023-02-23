@@ -2,11 +2,11 @@ FROM php:7.2-apache
 MAINTAINER Pierre Cheynier <pierre.cheynier@gmail.com>
 
 ENV PHPIPAM_SOURCE https://github.com/phpipam/phpipam/
-ENV PHPIPAM_VERSION 1.5.0
+ARG PHPIPAM_VERSION=1.5.1
 ENV PHPMAILER_SOURCE https://github.com/PHPMailer/PHPMailer/
-ENV PHPMAILER_VERSION 5.2.21
+ARG PHPMAILER_VERSION=6.7.1
 ENV PHPSAML_SOURCE https://github.com/onelogin/php-saml/
-ENV PHPSAML_VERSION 2.10.6
+ARG PHPSAML_VERSION=3.4.1
 ENV WEB_REPO /var/www/html
 
 # Install required deb packages
