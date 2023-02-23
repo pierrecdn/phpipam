@@ -53,8 +53,8 @@ RUN tar -xzf /tmp/v${PHPIPAM_VERSION}.tar.gz -C ${WEB_REPO}/ --strip-components=
 # Copy referenced submodules into the right directory
 ADD ${PHPMAILER_SOURCE}/archive/v${PHPMAILER_VERSION}.tar.gz /tmp/
 RUN tar -xzf /tmp/v${PHPMAILER_VERSION}.tar.gz -C ${WEB_REPO}/functions/PHPMailer/ --strip-components=1
-ADD ${PHPSAML_SOURCE}/archive/v${PHPSAML_VERSION}.tar.gz /tmp/
-RUN tar -xzf /tmp/v${PHPSAML_VERSION}.tar.gz -C ${WEB_REPO}/functions/php-saml/ --strip-components=1
+ADD ${PHPSAML_SOURCE}/archive/refs/tags/${PHPSAML_VERSION}.tar.gz /tmp/
+RUN tar -xzf /tmp/${PHPSAML_VERSION}.tar.gz -C ${WEB_REPO}/functions/php-saml/ --strip-components=1
 
 # Use system environment variables into config.php
 ENV PHPIPAM_BASE /
