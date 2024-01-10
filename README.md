@@ -105,16 +105,17 @@ The secret can be created by running `echo my-secret-pw | docker secret create p
 Here is the list of the available environment variables in the phpipam container, pass them to docker using `-e`.
 None of them are actually needed to run the container, this is only to tweak the behavior.
 
-| Environment variable           | Default value | Description                                                                                              |
-| ------------------------------ |:-------------:| --------------------------------------------------------------------------------------------------------:|
-| MYSQL_ENV_MYSQL_HOST           | mysql         | The host used to reach the MySQL instance                                                                |
-| MYSQL_ENV_MYSQL_USER           | root          | The user to connect the MySQL instance                                                                   |
-| MYSQL_ENV_MYSQL_ROOT_PASSWORD  | (empty)       | The MySQL password. Can be set using the Web UI during the first install                                 |
-| MYSQL_ENV_MYSQL_DB             | phpipam       | The name of the MySQL DB to connect to                                                                   |
-| MYSQL_ENV_MYSQL_PASSWORD_FILE  | (empty)       | A file containing the password (if not using MYSQL_ROOT_PASSWORD) this allows to leverage docker secrets |
-| PHPIPAM_BASE                   | /             | The base URI under which phpipam runs. Useful when performing rewrites with a reverse-proxy              |
-| GMAPS_API_KEY                  | (empty)       | Google Maps API Key, used to display maps of your devices                                                |
-| GMAPS_API_GEOCODE_KEY          | (empty)       | Google Maps Geocode API Key, used to find coordinates from an address/ a location of your device         |
+| Environment variable          | Default value | Description                                                                                                                                                                               |
+| ----------------------------- |:-------------:| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MYSQL_ENV_MYSQL_HOST          | mysql         | The host used to reach the MySQL instance                                                                                                                                                 |
+| MYSQL_ENV_MYSQL_USER          | root          | The user to connect the MySQL instance                                                                                                                                                    |
+| MYSQL_ENV_MYSQL_ROOT_PASSWORD | (empty)       | The MySQL password. Can be set using the Web UI during the first install                                                                                                                  |
+| MYSQL_ENV_MYSQL_DB            | phpipam       | The name of the MySQL DB to connect to                                                                                                                                                    |
+| MYSQL_ENV_MYSQL_PASSWORD_FILE | (empty)       | A file containing the password (if not using MYSQL_ROOT_PASSWORD) this allows to leverage docker secrets                                                                                  |
+| PHPIPAM_BASE                  | /             | The base URI under which phpipam runs. Useful when performing rewrites with a reverse-proxy                                                                                               |
+| TRUST_X_FORWARDED_HEADERS     | false         | If operating behind a reverse proxy, set to `true` to accept the following headers: `X_FORWARDED_HOST`, `X_FORWARDED_PORT`, `X_FORWARDED_PROTO`, `X_FORWARDED_SSL`, and `X_FORWARDED_URI` |
+| GMAPS_API_KEY                 | (empty)       | Google Maps API Key, used to display maps of your devices                                                                                                                                 |
+| GMAPS_API_GEOCODE_KEY         | (empty)       | Google Maps Geocode API Key, used to find coordinates from an address/ a location of your device                                                                                          |
 
 ### Specific integration (HTTPS, multi-host containers, etc.)
 

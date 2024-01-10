@@ -67,6 +67,7 @@ RUN cp ${WEB_REPO}/config.dist.php ${WEB_REPO}/config.php && \
     -e "s/\['user'\] = 'phpipam'/\['user'\] = getenv(\"MYSQL_ENV_MYSQL_USER\") ?: \"root\"/" \
     -e "s/\['name'\] = 'phpipam'/\['name'\] = getenv(\"MYSQL_ENV_MYSQL_DB\") ?: \"phpipam\"/" \
     -e "s/\['pass'\] = 'phpipamadmin'/\['pass'\] = getenv(\"MYSQL_ENV_MYSQL_ROOT_PASSWORD\")/" \
+    -e "s/\$trust_x_forwarded_headers = false/\$trust_x_forwarded_headers = boolval(getenv(\"TRUST_X_FORWARDED_HEADERS\")) ?: false/" \
     -e "s/\['port'\] = 3306;/\['port'\] = 3306;\n\n\$password_file = getenv(\"MYSQL_ENV_MYSQL_PASSWORD_FILE\");\nif(file_exists(\$password_file))\n\$db\['pass'\] = preg_replace(\"\/\\\\s+\/\", \"\", file_get_contents(\$password_file));/" \
     -e "s/define('BASE', \"\/\")/define('BASE', getenv(\"PHPIPAM_BASE\"))/" \
     -e "s/\$gmaps_api_key.*/\$gmaps_api_key = getenv(\"GMAPS_API_KEY\") ?: \"\";/" \
