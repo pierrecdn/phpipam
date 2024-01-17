@@ -13,7 +13,7 @@ ENV WEB_REPO /var/www/html
 RUN sed -i /etc/apt/sources.list -e 's/$/ non-free'/ && \
     apt-get update && apt-get -y upgrade && \
     rm /etc/apt/preferences.d/no-debian-php && \
-    apt-get install -y libcurl4-gnutls-dev libgmp-dev libmcrypt-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev libsnmp-dev snmp-mibs-downloader iputils-ping && \
+    apt-get install -y libcurl4-gnutls-dev libgmp-dev libmcrypt-dev libfreetype6-dev libjpeg-dev libpng-dev libldap2-dev libsnmp-dev snmp-mibs-downloader iputils-ping fping && \
     rm -rf /var/lib/apt/lists/*
 
 # Install required packages and files required for snmp
@@ -22,6 +22,9 @@ RUN mkdir -p /var/lib/mibs/ietf && \
     curl -sL https://github.com/cisco/cisco-mibs/raw/main/v2/CISCO-TC.my -o /var/lib/mibs/ietf/CISCO-TC.txt && \
     curl -sL https://github.com/cisco/cisco-mibs/raw/main/v2/CISCO-VTP-MIB.my -o /var/lib/mibs/ietf/CISCO-VTP-MIB.txt && \
     curl -sL https://github.com/cisco/cisco-mibs/raw/main/v2/MPLS-VPN-MIB.my -o /var/lib/mibs/ietf/MPLS-VPN-MIB.txt
+
+# Link /bin/fping to /usr/bin/fping
+RUN ln -s /usr/bin/fping /bin/fping
 
 # Configure apache and required PHP modules
 RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
